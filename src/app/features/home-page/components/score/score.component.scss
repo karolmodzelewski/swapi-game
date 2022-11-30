@@ -1,0 +1,13 @@
+@use 'src/assets/styles/colors' as *;
+
+:host {
+    display: flex;
+    justify-content: space-between;
+    color: $color_white;
+}
+
+@media screen and (max-width: 768px) {
+    .score {
+        font-size: 24px;
+    }
+}
