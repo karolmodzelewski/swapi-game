@@ -1,0 +1,7 @@
+export enum Attribute {
+    HEIGHT = 'HEIGHT',
+    MASS = 'MASS',
+    LENGTH = 'LENGTH',
+    COST_IN_CREDITS = 'COST_IN_CREDITS',
+    MAX_ATMOSPHERING_SPEED = 'MAX_ATMOSPHERING_SPEED',
+}
