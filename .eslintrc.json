@@ -77,7 +77,7 @@
                     "warn",
                     {
                         "selector": "property",
-                        "format": ["camelCase", "PascalCase"]
+                        "format": ["camelCase", "PascalCase", "snake_case"]
                     }
                 ],
                 "@typescript-eslint/member-ordering": [

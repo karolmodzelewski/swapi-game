@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Router, Routes } from '@angular/router';
 
+import { GameService } from './services/game.service';
 import { WrapperComponent } from './components/wrapper/wrapper.component';
 import { AppComponent } from './app.component';
 import { HomePageModule } from './features/home-page/home-page.module';
@@ -21,17 +22,20 @@ describe('AppComponent', () => {
     let fixture: ComponentFixture<AppComponent>;
     let debugElement: DebugElement;
     let router: Router;
+    let gameService: GameService;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule.withRoutes(routes), HomePageModule, BrowserAnimationsModule],
             declarations: [AppComponent, WrapperComponent],
+            providers: [GameService]
         }).compileComponents();
 
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
         router = TestBed.inject(Router);
+        gameService = TestBed.inject(GameService);
 
         router.initialNavigation();
         fixture.detectChanges();
@@ -65,5 +69,23 @@ describe('AppComponent', () => {
         const images: DebugElement[] = debugElement.queryAll(By.css('img'));
 
         expect(images.length).withContext('Should be 5 images after home page is rendered').toEqual(5);
+    });
+
+    describe('navigateToHomePage method', () => {
+        it('Should navigate to home page', () => {
+            spyOn(router, 'navigate');
+
+            component.navigateToHomePage();
+
+            expect(router.navigate).toHaveBeenCalledWith(['/']);
+        });
+
+        it(`Should call 'resetFormAndConfiguration' method from 'GameService'`, () => {
+            spyOn(gameService, 'resetFormAndConfiguration');
+
+            component.navigateToHomePage();
+
+            expect(gameService.resetFormAndConfiguration).toHaveBeenCalled();
+        });
     });
 });

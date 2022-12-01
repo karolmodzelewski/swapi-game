@@ -1,0 +1,9 @@
+<h1 class="heading">{{ heading }}</h1>
+
+<mat-card class="card">
+    <img [src]="imageSource" class="image" alt="Card image" mat-card-image />
+    <mat-card-content>
+        <swapi-person *ngIf="playerConfiguration?.[GameFormControl.RESOURCE] === Resource.PEOPLE" [resourceData$]="resourceData$"></swapi-person>
+        <swapi-starship *ngIf="playerConfiguration?.[GameFormControl.RESOURCE] === Resource.STARSHIPS" [resourceData$]="resourceData$"></swapi-starship>
+    </mat-card-content>
+</mat-card>

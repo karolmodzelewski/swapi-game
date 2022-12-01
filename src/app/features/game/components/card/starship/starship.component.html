@@ -1,0 +1,11 @@
+<section *ngIf="resourceData$ | async as resourceData" class="description">
+    <p class="property">Model: {{ resourceData.model }}</p>
+    <p class="property">Starship class: {{ resourceData.starship_class }}</p>
+    <p class="property">Crew: {{ resourceData.crew }}</p>
+    <p class="property">Hyperdrive rating: {{ resourceData.hyperdrive_rating }}</p>
+    <p class="property">MGLT: {{ resourceData.MGLT }}</p>
+    <p class="property">Passengers: {{ resourceData.passengers }}</p>
+    <p class="property">Length: {{ resourceData.length }}</p>
+    <p class="property">Cost in credits: {{ resourceData.cost_in_credits }}</p>
+    <p class="property">Max atmosphering speed: {{ resourceData.max_atmosphering_speed }}</p>
+</section>
