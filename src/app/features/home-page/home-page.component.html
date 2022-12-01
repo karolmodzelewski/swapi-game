@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" class="form">
     <section class="section">
         <h1 class="heading">1. Select a resource</h1>
         <div class="resource-container">
@@ -33,5 +33,5 @@
         </div>
     </section>
 
-    <button (click)="playGame()" [disabled]="form.invalid" class="play-button" color="accent" mat-stroked-button>Play</button>
+    <swapi-wide-button (click)="playGame()" [disabled]="form.invalid" text="Play" class="button"></swapi-wide-button>
 </form>

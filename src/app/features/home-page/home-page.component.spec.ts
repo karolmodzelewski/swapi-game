@@ -3,28 +3,44 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
-import { Player } from './../../enums/player.enum';
-import { GameFormControl } from './../../enums/game-form-control.enum';
-import { Resource } from './../../enums/resource.enum';
-import { Attribute } from './../../enums/attribute.enum';
+import { GameService } from '../../services/game.service';
+import { Player } from '../../enums/player.enum';
+import { GameFormControl } from '../../enums/game-form-control.enum';
+import { Resource } from '../../enums/resource.enum';
+import { Attribute } from '../../enums/attribute.enum';
 import { HomePageComponent } from './home-page.component';
 import { HomePageModule } from './home-page.module';
+import { PlayerConfiguration } from '../../interfaces/player-configuration.interface';
+import { GameComponent } from '../game/game.component';
 
 describe('HomePageComponent', () => {
     let component: HomePageComponent;
     let fixture: ComponentFixture<HomePageComponent>;
     let debugElement: DebugElement;
+    let gameService: GameService;
+    let router: Router;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [HomePageComponent],
-            imports: [HomePageModule, BrowserAnimationsModule],
+            imports: [
+                HomePageModule,
+                BrowserAnimationsModule,
+                RouterTestingModule.withRoutes([
+                    { path: 'game', component: GameComponent }
+                ]
+            )],
+            providers: [GameService]
         }).compileComponents();
 
         fixture = TestBed.createComponent(HomePageComponent);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
+        gameService = TestBed.inject(GameService);
+        router = TestBed.inject(Router);
 
         fixture.detectChanges();
     }));
@@ -54,10 +70,10 @@ describe('HomePageComponent', () => {
             expect(components.length).withContext(`Should be 2 'swapi-score' components`).toEqual(2);
         });
 
-        it(`Should render 1 'play-button' button`, () => {
-            const buttons: DebugElement[] = debugElement.queryAll(By.css('button.play-button'));
+        it(`Should render 1 'swapi-wide-button' component`, () => {
+            const components: DebugElement[] = debugElement.queryAll(By.css('swapi-wide-button'));
 
-            expect(buttons.length).withContext(`Should be 1 'play-button' button`).toEqual(1);
+            expect(components.length).withContext(`Should be 1 'swapi-wide-button' component`).toEqual(1);
         });
     });
 
@@ -168,6 +184,18 @@ describe('HomePageComponent', () => {
                     expect(attributes).withContext(`Attributes should equal '[Attribute.LENGTH, Attribute.COST_IN_CREDITS, Attribute.MAX_ATMOSPHERING_SPEED]'`).toEqual(attributesFixture);
                 });
             });
+
+            it(`Should reset 'attributeFormControl' if it has value`, () => {
+                const attributeFormControl: FormControl<Attribute> = component.form.get(GameFormControl.ATTRIBUTE) as FormControl<Attribute>;
+
+                spyOn(attributeFormControl, 'reset');
+
+                attributeFormControl.setValue(Attribute.COST_IN_CREDITS);
+
+                component.selectResource(Resource.STARSHIPS);
+
+                expect(attributeFormControl.reset).toHaveBeenCalled();
+            });
         });
 
         describe('selectPlayer method', () => {
@@ -185,8 +213,41 @@ describe('HomePageComponent', () => {
         });
 
         describe('playGame method', () => {
-            it('TODO', () => {
-                pending();
+            it('Should not call any methods if form is invalid', () => {
+                spyOn(component, 'playGame').and.callThrough();
+                spyOn(router, 'navigate');
+
+                component.playGame();
+
+                expect(component.playGame).withContext(`Should call 'playGame' method`).toHaveBeenCalled();
+                expect(router.navigate).withContext('Should not navigate anywhere').not.toHaveBeenCalled();
+            });
+
+            it('Should set player configuration', () => {
+                component.form.get(GameFormControl.RESOURCE).setValue(Resource.STARSHIPS);
+                component.form.get(GameFormControl.ATTRIBUTE).setValue(Attribute.COST_IN_CREDITS);
+                component.form.get(GameFormControl.PLAYER).setValue(Player.PLAYER_ONE);
+
+                const formValue: PlayerConfiguration = component.form.value;
+
+                spyOn(component, 'playGame').and.callThrough();
+
+                component.playGame();
+
+                expect(gameService.playerConfiguration).withContext('PlayerConfiguration should be the same as form value').toEqual(formValue);
+            });
+
+            it('Should navigate to game page', () => {
+                component.form.get(GameFormControl.RESOURCE).setValue(Resource.STARSHIPS);
+                component.form.get(GameFormControl.ATTRIBUTE).setValue(Attribute.COST_IN_CREDITS);
+                component.form.get(GameFormControl.PLAYER).setValue(Player.PLAYER_ONE);
+
+                spyOn(component, 'playGame').and.callThrough();
+                spyOn(router, 'navigate');
+
+                component.playGame();
+
+                expect(router.navigate).withContext(`Router should navigate with 'game' path`).toHaveBeenCalledWith(['game']);
             });
         });
     });

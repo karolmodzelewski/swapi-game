@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
@@ -36,7 +37,7 @@ export class HomePageComponent implements OnInit {
         return this.form.get(GameFormControl.PLAYER) as FormControl<Player>;
     }
 
-    constructor(private gameService: GameService) {}
+    constructor(private gameService: GameService, private router: Router) {}
 
     public ngOnInit(): void {
         this.initPlayersScores();
@@ -58,7 +59,20 @@ export class HomePageComponent implements OnInit {
     }
 
     public playGame(): void {
-        // TODO
+        if (this.form.invalid) {
+            return;
+        }
+
+        this.setPlayerConfiguration();
+        this.navigateToGamePage();
+    }
+
+    private setPlayerConfiguration(): void {
+        this.gameService.playerConfiguration = this.form.value;
+    }
+
+    private navigateToGamePage(): void {
+        this.router.navigate(['game']);
     }
 
     private setAttributes(attributes: Attribute[]): void {

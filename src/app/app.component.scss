@@ -1,8 +1,10 @@
 .logo-container {
     display: flex;
     justify-content: center;
+    margin-bottom: 50px;
 }
 
 .logo {
     width: 350px;
+    cursor: pointer;
 }

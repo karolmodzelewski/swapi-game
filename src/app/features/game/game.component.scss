@@ -1,0 +1,28 @@
+@use 'src/assets/styles/colors' as *;
+
+::ng-deep {
+    .button {
+        margin-top: 50px;
+    }
+}
+
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.versus {
+    color: $color_white;
+    font-size: 52px;
+}
+
+@media screen and (max-width: 768px) {
+    .section {
+        flex-direction: column;
+    }
+
+    .versus {
+        margin: 40px 0;
+    }
+}
