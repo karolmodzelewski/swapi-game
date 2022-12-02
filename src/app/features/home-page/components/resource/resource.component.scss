@@ -2,7 +2,7 @@
 
 .resource {
     width: 300px;
-    border: 3px solid $color_yellow;
+    border: 3px solid $color-yellow;
     padding: 5px 15px;
     filter: grayscale(1);
     cursor: pointer;
@@ -25,16 +25,16 @@
 
 .image {
     width: 100%;
-    color: $color_white;
+    color: $color-white;
 }
 
 .heading {
-    color: $color_white;
+    color: $color-white;
     margin-top: 10px;
     font-size: 22px;
 
     &.selected {
-        color: $color_yellow;
+        color: $color-yellow;
     }
 }
 

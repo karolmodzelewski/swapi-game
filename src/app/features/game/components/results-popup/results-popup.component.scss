@@ -7,14 +7,14 @@
 
         .mdc-dialog__container .mat-mdc-dialog-surface.mdc-dialog__surface {
             background: $color-black;
-            border: 3px solid $color_yellow;
+            border: 3px solid $color-yellow;
         }
     }
 }
 
 .result,
 .text {
-    color: $color_white;
+    color: $color-white;
 }
 
 .result {

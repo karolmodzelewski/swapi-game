@@ -1,12 +1,12 @@
 @use 'src/assets/styles/colors' as *;
 
 .description {
-    color: $color_white;
+    color: $color-white;
     line-height: 0.9;
 }
 
 .property {
-    border-bottom: 1px solid $color_white;
+    border-bottom: 1px solid $color-white;
     padding-bottom: 2px;
 }
 

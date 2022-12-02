@@ -9,13 +9,13 @@
 
 .mat-mdc-outlined-button {
     &:disabled {
-        color: $color_gray;
-        border-color: $color_gray;
+        color: $color-gray;
+        border-color: $color-gray;
     }
 
     &:not(:disabled) {
-        color: $color_yellow;
-        border-color: $color_yellow;
+        color: $color-yellow;
+        border-color: $color-yellow;
     }
 }
 
