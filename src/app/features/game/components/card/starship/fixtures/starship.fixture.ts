@@ -11,12 +11,9 @@ export const STARSHIP_FIXTURE_DATA = {
     MGLT: 'unknown',
     cargo_capacity: 'unknown',
     consumables: 'unknown',
-    pilots: [
-        'https://www.swapi.tech/api/people/10',
-        'https://www.swapi.tech/api/people/35'
-    ],
+    pilots: ['https://www.swapi.tech/api/people/10', 'https://www.swapi.tech/api/people/35'],
     created: '2020-09-17T17:55:06.604Z',
     edited: '2020-09-17T17:55:06.604Z',
     name: 'Naboo star skiff',
-    url: 'https://www.swapi.tech/api/starships/64'
+    url: 'https://www.swapi.tech/api/starships/64',
 };

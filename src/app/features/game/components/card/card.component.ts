@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { PlayerConfiguration } from '../../../../interfaces/player-configuration.interface';
 import { GameFormControl } from '../../../../enums/game-form-control.enum';
 import { SelectedResource } from '../../types/selected-resource.type';
-import { Resource } from './../../../../enums/resource.enum';
+import { Resource } from '../../../../enums/resource.enum';
 
 @Component({
     selector: 'swapi-card',
