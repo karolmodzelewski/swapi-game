@@ -3,10 +3,10 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Player } from '../../../../enums/player.enum';
-import { Attribute } from './../../../../enums/attribute.enum';
+import { Attribute } from '../../../../enums/attribute.enum';
 import { Resource } from '../../../../enums/resource.enum';
-import { GameFormControl } from './../../../../enums/game-form-control.enum';
-import { PlayerConfiguration } from './../../../../interfaces/player-configuration.interface';
+import { GameFormControl } from '../../../../enums/game-form-control.enum';
+import { PlayerConfiguration } from '../../../../interfaces/player-configuration.interface';
 import { CardComponent } from './card.component';
 import { GameModule } from '../../game.module';
 

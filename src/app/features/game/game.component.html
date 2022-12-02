@@ -5,7 +5,7 @@
         <swapi-card [playerConfiguration]="playerConfiguration" [imageSource]="enemyImageSource" [resourceData$]="enemy$" heading="Enemy card"></swapi-card>
     </section>
 
-    <swapi-wide-button (click)="showResult()" text="Show result" class="button"></swapi-wide-button>
+    <swapi-wide-button (click)="showResults()" text="Show results" class="button"></swapi-wide-button>
 </ng-container>
 
 <swapi-loading-state *ngIf="viewState === ViewState.LOADING"></swapi-loading-state>

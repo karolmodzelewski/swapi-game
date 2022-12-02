@@ -1,25 +1,25 @@
-
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Player } from '../../enums/player.enum';
-import { Attribute } from './../../enums/attribute.enum';
+import { Attribute } from '../../enums/attribute.enum';
 import { Resource } from '../../enums/resource.enum';
-import { GameFormControl } from './../../enums/game-form-control.enum';
+import { GameFormControl } from '../../enums/game-form-control.enum';
 import { GameService } from '../../services/game.service';
 import { GameComponent } from './game.component';
 import { GameModule } from './game.module';
 import { ViewState } from './components/card/enums/view-state.enum';
-
-
+import { ResultsPopupComponent } from './components/results-popup/results-popup.component';
 
 describe('GameComponent', () => {
     let component: GameComponent;
     let fixture: ComponentFixture<GameComponent>;
     let debugElement: DebugElement;
     let gameService: GameService;
+    let dialog: MatDialog;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -32,6 +32,7 @@ describe('GameComponent', () => {
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
         gameService = TestBed.inject(GameService);
+        dialog = TestBed.inject(MatDialog);
 
         fixture.detectChanges();
     }));
@@ -103,11 +104,25 @@ describe('GameComponent', () => {
 
                 expect(component.playerConfiguration).withContext(`'PlayerConfiguration' should equal 'playerConfiguration' from 'GameService'`).toEqual(gameService.playerConfiguration);
             });
+
+            it(`Should call 'playGame' method from 'GameService`, () => {
+                spyOn(gameService, 'playGame');
+
+                component.ngOnInit();
+
+                expect(gameService.playGame).withContext(`Should call 'playGame' method from 'GameService`).toHaveBeenCalled();
+            });
         });
 
-        describe('showResult method', () => {
-            it('TODO', () => {
-                pending();
+        describe('showResults method', () => {
+            it(`Should open dialog with panel-class and 'ResultsPopupComponent' component`, () => {
+                const panelClass: string = 'results-popup-panel-class';
+
+                spyOn(dialog, 'open');
+
+                component.showResults();
+
+                expect(dialog.open).toHaveBeenCalledWith(ResultsPopupComponent, { panelClass });
             });
         });
     });

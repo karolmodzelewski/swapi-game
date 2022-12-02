@@ -2,10 +2,10 @@ import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 
 import { Player } from '../enums/player.enum';
-import { Attribute } from './../enums/attribute.enum';
+import { Attribute } from '../enums/attribute.enum';
 import { GameFormControl } from '../enums/game-form-control.enum';
 import { Resource } from '../enums/resource.enum';
-import { GameService } from './../services/game.service';
+import { GameService } from '../services/game.service';
 import { GameGuard } from './game.guard';
 
 describe('GameGuard', () => {

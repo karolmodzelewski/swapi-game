@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 
-import { GameService } from './../services/game.service';
+import { GameService } from '../services/game.service';
 
 @Injectable({
     providedIn: 'root',

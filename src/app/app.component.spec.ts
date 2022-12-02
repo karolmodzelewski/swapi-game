@@ -28,7 +28,7 @@ describe('AppComponent', () => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule.withRoutes(routes), HomePageModule, BrowserAnimationsModule],
             declarations: [AppComponent, WrapperComponent],
-            providers: [GameService]
+            providers: [GameService],
         }).compileComponents();
 
         fixture = TestBed.createComponent(AppComponent);
@@ -72,20 +72,12 @@ describe('AppComponent', () => {
     });
 
     describe('navigateToHomePage method', () => {
-        it('Should navigate to home page', () => {
-            spyOn(router, 'navigate');
+        it(`Should call once 'navigateToHomePage' method from 'GameService'`, () => {
+            spyOn(gameService, 'navigateToHomePage');
 
             component.navigateToHomePage();
 
-            expect(router.navigate).toHaveBeenCalledWith(['/']);
-        });
-
-        it(`Should call 'resetFormAndConfiguration' method from 'GameService'`, () => {
-            spyOn(gameService, 'resetFormAndConfiguration');
-
-            component.navigateToHomePage();
-
-            expect(gameService.resetFormAndConfiguration).toHaveBeenCalled();
+            expect(gameService.navigateToHomePage).withContext(`'navigateToHomePage' method from 'GameService' should be called once`).toHaveBeenCalled();
         });
     });
 });

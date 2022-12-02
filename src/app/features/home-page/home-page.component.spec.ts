@@ -26,14 +26,8 @@ describe('HomePageComponent', () => {
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [HomePageComponent],
-            imports: [
-                HomePageModule,
-                BrowserAnimationsModule,
-                RouterTestingModule.withRoutes([
-                    { path: 'game', component: GameComponent }
-                ]
-            )],
-            providers: [GameService]
+            imports: [HomePageModule, BrowserAnimationsModule, RouterTestingModule.withRoutes([{ path: 'game', component: GameComponent }])],
+            providers: [GameService],
         }).compileComponents();
 
         fixture = TestBed.createComponent(HomePageComponent);

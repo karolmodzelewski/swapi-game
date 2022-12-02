@@ -1,16 +1,20 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
-import { catchError, EMPTY, Observable, of, retryWhen, switchMap, takeUntil, throwError, zip } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable, of, retryWhen, switchMap, takeUntil, throwError, zip } from 'rxjs';
 
+import { PlayerScore } from '../../interfaces/player-score.interface';
 import { Player } from '../../enums/player.enum';
 import { Resource } from '../../enums/resource.enum';
-import { PlayerConfiguration } from './../../interfaces/player-configuration.interface';
-import { GameFormControl } from './../../enums/game-form-control.enum';
+import { PlayerConfiguration } from '../../interfaces/player-configuration.interface';
+import { GameFormControl } from '../../enums/game-form-control.enum';
 import { GameService } from '../../services/game.service';
 import { Destroyable } from '../../utils/destroyable.util';
 import { SelectedResource } from './types/selected-resource.type';
 import { ViewState } from './components/card/enums/view-state.enum';
+import { ResultsPopupComponent } from './components/results-popup/results-popup.component';
+import { Result } from '../../enums/result.enum';
 
 @Component({
     selector: 'swapi-game',
@@ -32,17 +36,20 @@ export class GameComponent extends Destroyable implements OnInit {
         return this.playerConfiguration?.[GameFormControl.RESOURCE] === Resource.PEOPLE ? 'assets/images/png/enemy.png' : 'assets/images/png/enemy-starship.png';
     }
 
-    constructor(private gameService: GameService, private httpClient: HttpClient) {
+    constructor(private gameService: GameService, private httpClient: HttpClient, private dialog: MatDialog) {
         super();
     }
 
     public ngOnInit(): void {
         this.playerConfiguration = this.gameService.playerConfiguration;
-        this.getDataForResources();
+        this.gameService.shouldPlayGame.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getDataForResources());
+        this.gameService.playGame();
     }
 
-    public showResult(): void {
-        // TODO
+    public showResults(): void {
+        this.dialog.open(ResultsPopupComponent, {
+            panelClass: 'results-popup-panel-class',
+        });
     }
 
     private getDataForResources(): void {
@@ -53,8 +60,69 @@ export class GameComponent extends Destroyable implements OnInit {
             .subscribe((selectedResources: [SelectedResource, SelectedResource]) => {
                 this.player$ = of(selectedResources[0]);
                 this.enemy$ = of(selectedResources[1]);
+
+                const playerAttributeValue: number = this.getAttribute(selectedResources[0]);
+                const enemyAttributeValue: number = this.getAttribute(selectedResources[1]);
+
+                this.getResults(playerAttributeValue, enemyAttributeValue);
+
                 this.viewState = ViewState.SUCCESS;
             });
+    }
+
+    private getResults(playerAttributeValue: number, enemyAttributeValue: number): void {
+        if (isNaN(playerAttributeValue)) {
+            playerAttributeValue = 0;
+        }
+
+        if (isNaN(enemyAttributeValue)) {
+            enemyAttributeValue = 0;
+        }
+
+        const player$: BehaviorSubject<PlayerScore> = this.gameService.getPlayer$();
+        const playersValue: PlayerScore = player$.getValue();
+
+        switch (true) {
+            case playerAttributeValue > enemyAttributeValue:
+                const win: PlayerScore = {
+                    wins: (playersValue.wins += 1),
+                    ...playersValue,
+                };
+
+                this.setCurrentResult(player$, win, Result.WIN);
+
+                return;
+            case playerAttributeValue === enemyAttributeValue:
+                const draw: PlayerScore = {
+                    draws: (playersValue.draws += 1),
+                    ...playersValue,
+                };
+
+                this.setCurrentResult(player$, draw, Result.DRAW);
+
+                return;
+            case playerAttributeValue < enemyAttributeValue:
+                const lose: PlayerScore = {
+                    loses: (playersValue.loses += 1),
+                    ...playersValue,
+                };
+
+                this.setCurrentResult(player$, lose, Result.LOSE);
+
+                return;
+        }
+    }
+
+    private setCurrentResult(player$: BehaviorSubject<PlayerScore>, score: PlayerScore, result: Result): void {
+        player$.next(score);
+
+        this.gameService.currentResult = result;
+    }
+
+    private getAttribute(resource: SelectedResource): number {
+        const selectedAttribute: keyof SelectedResource = this.playerConfiguration?.[GameFormControl.ATTRIBUTE].toLowerCase() as keyof SelectedResource;
+
+        return +resource?.[selectedAttribute];
     }
 
     private getDataForResource$(): Observable<SelectedResource> {
@@ -85,7 +153,8 @@ export class GameComponent extends Destroyable implements OnInit {
                         return throwError(() => error);
                     })
                 )
-            )
+            ),
+            takeUntil(this.destroyed$)
         );
     }
 

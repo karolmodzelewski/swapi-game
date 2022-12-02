@@ -1,0 +1,5 @@
+<ng-container [ngSwitch]="currentResult">
+    <span *ngSwitchCase="Result.WIN" class="color-green">won!</span>
+    <span *ngSwitchCase="Result.DRAW" class="color-gray">drew.</span>
+    <span *ngSwitchCase="Result.LOSE" class="color-red">lost...</span>
+</ng-container>
