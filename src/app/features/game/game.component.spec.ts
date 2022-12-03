@@ -104,14 +104,6 @@ describe('GameComponent', () => {
 
                 expect(component.playerConfiguration).withContext(`'PlayerConfiguration' should equal 'playerConfiguration' from 'GameService'`).toEqual(gameService.playerConfiguration);
             });
-
-            it(`Should call 'playGame' method from 'GameService`, () => {
-                spyOn(gameService, 'playGame');
-
-                component.ngOnInit();
-
-                expect(gameService.playGame).withContext(`Should call 'playGame' method from 'GameService`).toHaveBeenCalled();
-            });
         });
 
         describe('showResults method', () => {

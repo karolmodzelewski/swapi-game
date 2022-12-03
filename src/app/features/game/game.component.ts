@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { BehaviorSubject, catchError, EMPTY, Observable, of, retryWhen, switchMap, takeUntil, throwError, zip } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, of, retryWhen, switchMap, takeUntil, throwError, zip } from 'rxjs';
 
 import { PlayerScore } from '../../interfaces/player-score.interface';
 import { Player } from '../../enums/player.enum';
@@ -15,6 +15,7 @@ import { SelectedResource } from './types/selected-resource.type';
 import { ViewState } from './components/card/enums/view-state.enum';
 import { ResultsPopupComponent } from './components/results-popup/results-popup.component';
 import { Result } from '../../enums/result.enum';
+import { SwapiResponse } from '../../interfaces/swapi-response.interface';
 
 @Component({
     selector: 'swapi-game',
@@ -43,7 +44,6 @@ export class GameComponent extends Destroyable implements OnInit {
     public ngOnInit(): void {
         this.playerConfiguration = this.gameService.playerConfiguration;
         this.gameService.shouldPlayGame.pipe(takeUntil(this.destroyed$)).subscribe(() => this.getDataForResources());
-        this.gameService.playGame();
     }
 
     public showResults(): void {
@@ -129,9 +129,9 @@ export class GameComponent extends Destroyable implements OnInit {
         let randomNumber: number = this.getRandomNumber(100);
 
         return of(this.setUrlForApiCall()).pipe(
-            switchMap((url: string) => this.httpClient.get<SelectedResource>(url + randomNumber)),
+            switchMap((url: string) => this.httpClient.get<SwapiResponse>(url + randomNumber)),
             catchError((error: HttpErrorResponse) => {
-                if (error.status === 404 && error.error.detail.includes('Not found')) {
+                if (error.status === 404 && error.error.message.includes('not found')) {
                     return throwError(() => error);
                 }
 
@@ -144,7 +144,7 @@ export class GameComponent extends Destroyable implements OnInit {
             retryWhen((notifier: Observable<HttpErrorResponse>) =>
                 notifier.pipe(
                     switchMap((error: HttpErrorResponse) => {
-                        if (error.status === 404 && error.error.detail.includes('Not found')) {
+                        if (error.status === 404 && error.error.message.includes('not found')) {
                             randomNumber = this.getRandomNumber(100);
 
                             return of(null);
@@ -154,6 +154,7 @@ export class GameComponent extends Destroyable implements OnInit {
                     })
                 )
             ),
+            map((response: SwapiResponse) => response.result.properties),
             takeUntil(this.destroyed$)
         );
     }
@@ -161,7 +162,7 @@ export class GameComponent extends Destroyable implements OnInit {
     private setUrlForApiCall(): string {
         const resource: string = this.gameService.playerConfiguration?.[GameFormControl.RESOURCE].toLowerCase();
 
-        return `https://swapi.dev/api/${resource}/`;
+        return `https://swapi.tech/api/${resource}/`;
     }
 
     private getRandomNumber(max: number): number {
