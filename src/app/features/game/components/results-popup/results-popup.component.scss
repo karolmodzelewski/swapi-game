@@ -4,12 +4,25 @@
     .results-popup-panel-class {
         max-width: 768px !important;
         width: 100%;
+        position: relative;
 
         .mdc-dialog__container .mat-mdc-dialog-surface.mdc-dialog__surface {
             background: $color-black;
             border: 3px solid $color-yellow;
         }
     }
+}
+
+.icon-close {
+    width: 36px;
+    height: 36px;
+    font-size: 36px;
+    color: $color-white;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1;
+    cursor: pointer;
 }
 
 .result,

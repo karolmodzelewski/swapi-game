@@ -1,3 +1,5 @@
+<mat-icon (click)="closePopup()" class="icon-close" fontIcon="close"></mat-icon>
+
 <h2 class="result" mat-dialog-title>You <swapi-result-heading [currentResult]="currentResult"></swapi-result-heading></h2>
 
 <section *ngIf="player$ | async as player" class="section" mat-dialog-content>

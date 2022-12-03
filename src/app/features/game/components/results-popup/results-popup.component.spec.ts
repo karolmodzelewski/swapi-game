@@ -133,12 +133,12 @@ describe('ResultsPopupComponent', () => {
         });
 
         describe('playAgain method', () => {
-            it('Should close dialog', () => {
-                spyOn(dialogRef, 'close');
+            it(`Should call 'closePopup' method`, () => {
+                spyOn(component, 'closePopup');
 
-                component.playAgain();
+                component.navigateToHomePage();
 
-                expect(dialogRef.close).withContext('Method to close dialog should be called once').toHaveBeenCalled();
+                expect(component.closePopup).withContext('Method to close dialog should be called once').toHaveBeenCalled();
             });
 
             it(`Should call once 'playGame' method from 'GameService'`, () => {
@@ -151,12 +151,12 @@ describe('ResultsPopupComponent', () => {
         });
 
         describe('navigateToHomePage method', () => {
-            it('Should close dialog', () => {
-                spyOn(dialogRef, 'close');
+            it(`Should call 'closePopup' method`, () => {
+                spyOn(component, 'closePopup');
 
                 component.navigateToHomePage();
 
-                expect(dialogRef.close).withContext('Method to close dialog should be called once').toHaveBeenCalled();
+                expect(component.closePopup).withContext('Method to close dialog should be called once').toHaveBeenCalled();
             });
 
             it(`Should call once 'navigateToHomePage' method from 'GameService'`, () => {
@@ -165,6 +165,16 @@ describe('ResultsPopupComponent', () => {
                 component.navigateToHomePage();
 
                 expect(gameService.navigateToHomePage).withContext(`'navigateToHomePage' method from 'GameService' should be called once`).toHaveBeenCalled();
+            });
+        });
+
+        describe('closePopup method', () => {
+            it('Should close dialog', () => {
+                spyOn(dialogRef, 'close');
+
+                component.closePopup();
+
+                expect(dialogRef.close).withContext('Method to close dialog should be called once').toHaveBeenCalled();
             });
         });
     });

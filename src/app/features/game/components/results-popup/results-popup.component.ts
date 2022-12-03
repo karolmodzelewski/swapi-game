@@ -24,12 +24,16 @@ export class ResultsPopupComponent implements OnInit {
     }
 
     public playAgain(): void {
-        this.dialogRef.close();
+        this.closePopup();
         this.gameService.playGame();
     }
 
     public navigateToHomePage(): void {
-        this.dialogRef.close();
+        this.closePopup();
         this.gameService.navigateToHomePage();
+    }
+
+    public closePopup(): void {
+        this.dialogRef.close();
     }
 }
