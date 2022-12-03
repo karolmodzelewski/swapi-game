@@ -9,6 +9,7 @@
         .mdc-dialog__container .mat-mdc-dialog-surface.mdc-dialog__surface {
             background: $color-black;
             border: 3px solid $color-yellow;
+            padding: 10px 42px;
         }
     }
 }
@@ -34,6 +35,10 @@
     font-size: 42px;
     text-align: center;
     margin: 20px 0 0;
+}
+
+.infobar {
+    margin-top: 40px;
 }
 
 .section {
