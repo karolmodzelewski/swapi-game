@@ -1,4 +1,8 @@
+<mat-icon (click)="closePopup()" class="icon-close" fontIcon="close"></mat-icon>
+
 <h2 class="result" mat-dialog-title>You <swapi-result-heading [currentResult]="currentResult"></swapi-result-heading></h2>
+
+<swapi-infobar [message]="infobarMessage" class="infobar"></swapi-infobar>
 
 <section *ngIf="player$ | async as player" class="section" mat-dialog-content>
     <div class="statistics">
@@ -19,6 +23,6 @@
 </section>
 
 <section class="action-buttons-container" mat-dialog-actions>
-    <swapi-wide-button (click)="playAgain()" text="Play again"></swapi-wide-button>
-    <swapi-wide-button (click)="navigateToHomePage()" text="Home Page"></swapi-wide-button>
+    <swapi-wide-button (click)="playAgain()" [text]="playAgainButtonText"></swapi-wide-button>
+    <swapi-wide-button (click)="navigateToHomePage()" [text]="homePageButtonText"></swapi-wide-button>
 </section>

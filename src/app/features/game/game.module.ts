@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { WideButtonComponent } from '../../components/wide-button/wide-button.component';
 import { GameComponent } from './game.component';
@@ -15,10 +16,11 @@ import { LoadingStateComponent } from '../../components/loading-state/loading-st
 import { ErrorStateComponent } from '../../components/error-state/error-state.component';
 import { ResultsPopupComponent } from './components/results-popup/results-popup.component';
 import { ResultHeadingComponent } from './components/results-popup/components/result-heading/result-heading.component';
+import { InfobarComponent } from '../../components/infobar/infobar.component';
 
 @NgModule({
     declarations: [GameComponent, CardComponent, PersonComponent, StarshipComponent, ResultsPopupComponent, ResultHeadingComponent],
-    imports: [CommonModule, GameRoutingModule, HttpClientModule, MatCardModule, LoadingStateComponent, ErrorStateComponent, MatButtonModule, WideButtonComponent, MatDialogModule],
+    imports: [CommonModule, GameRoutingModule, HttpClientModule, MatCardModule, LoadingStateComponent, ErrorStateComponent, MatButtonModule, WideButtonComponent, MatDialogModule, MatIconModule, InfobarComponent],
     exports: [CardComponent],
 })
 export class GameModule {}

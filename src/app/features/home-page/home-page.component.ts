@@ -24,6 +24,15 @@ export class HomePageComponent implements OnInit {
     public GameFormControl: typeof GameFormControl = GameFormControl;
     public Resource: typeof Resource = Resource;
     public Player: typeof Player = Player;
+    public peopleResourceHeading: string = 'People';
+    public starshipsResourceHeading: string = 'Starships';
+    public playerOneResourceHeading: string = 'You';
+    public playerTwoResourceHeading: string = 'You (2)';
+    public peopleResourceImageSource: string = 'assets/images/png/person.png';
+    public starshipsResourceImageSource: string = 'assets/images/png/starship.png';
+    public playerOneResourceImageSource: string = 'assets/images/png/player-one.png';
+    public playerTwoResourceImageSource: string = 'assets/images/png/player-two.png';
+    public playButtonText: string = 'Play';
 
     public get resourceFormControl(): FormControl<Resource> {
         return this.form.get(GameFormControl.RESOURCE) as FormControl<Resource>;

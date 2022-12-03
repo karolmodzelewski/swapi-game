@@ -28,6 +28,8 @@ export class GameService {
     });
     public playerConfiguration: PlayerConfiguration;
     public currentResult: Result;
+    public totalPeopleRecords: number;
+    public totalStarshipsRecords: number;
     public shouldPlayGame: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public form: FormGroup = new FormGroup({
         [GameFormControl.RESOURCE]: new FormControl<Resource>(null, Validators.required),
