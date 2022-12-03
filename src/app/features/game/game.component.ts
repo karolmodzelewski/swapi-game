@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { BehaviorSubject, catchError, EMPTY, map, Observable, of, retryWhen, switchMap, takeUntil, throwError, zip } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, of, retryWhen, switchMap, takeUntil, tap, throwError, zip } from 'rxjs';
 
 import { PlayerScore } from '../../interfaces/player-score.interface';
 import { Player } from '../../enums/player.enum';
@@ -15,6 +15,7 @@ import { SelectedResource } from './types/selected-resource.type';
 import { ViewState } from './components/card/enums/view-state.enum';
 import { ResultsPopupComponent } from './components/results-popup/results-popup.component';
 import { Result } from '../../enums/result.enum';
+import { SwapiResourceResponse } from '../../interfaces/swapi-resource-response.interface';
 import { SwapiResponse } from '../../interfaces/swapi-response.interface';
 
 @Component({
@@ -58,19 +59,39 @@ export class GameComponent extends Destroyable implements OnInit {
     private getDataForResources(): void {
         this.viewState = ViewState.LOADING;
 
-        zip(this.getDataForResource$(), this.getDataForResource$())
-            .pipe(takeUntil(this.destroyed$))
-            .subscribe((selectedResources: [SelectedResource, SelectedResource]) => {
-                this.player$ = of(selectedResources[0]);
-                this.enemy$ = of(selectedResources[1]);
+        if (this.getTotalRecords()) {
+            zip(this.getDataForResource$(), this.getDataForResource$())
+                .pipe(takeUntil(this.destroyed$))
+                .subscribe((selectedResources: [SelectedResource, SelectedResource]) => this.setDataForResources(selectedResources[0], selectedResources[1]));
 
-                const playerAttributeValue: number = this.getAttribute(selectedResources[0]);
-                const enemyAttributeValue: number = this.getAttribute(selectedResources[1]);
+            return;
+        }
 
-                this.getResults(playerAttributeValue, enemyAttributeValue);
+        this.httpClient
+            .get<SwapiResponse>(this.setUrlForApiCall())
+            .pipe(
+                catchError(() => {
+                    this.viewState = ViewState.ERROR;
 
-                this.viewState = ViewState.SUCCESS;
-            });
+                    return EMPTY;
+                }),
+                tap((response: SwapiResponse) => this.setTotalRecords(response.total_records)),
+                switchMap(() => zip(this.getDataForResource$(), this.getDataForResource$())),
+                takeUntil(this.destroyed$)
+            )
+            .subscribe((selectedResources: [SelectedResource, SelectedResource]) => this.setDataForResources(selectedResources[0], selectedResources[1]));
+    }
+
+    private setDataForResources(playerData: SelectedResource, enemyData: SelectedResource): void {
+        this.player$ = of(playerData);
+        this.enemy$ = of(enemyData);
+
+        const playerAttributeValue: number = this.getAttribute(playerData);
+        const enemyAttributeValue: number = this.getAttribute(enemyData);
+
+        this.getResults(playerAttributeValue, enemyAttributeValue);
+
+        this.viewState = ViewState.SUCCESS;
     }
 
     private getResults(playerAttributeValue: number, enemyAttributeValue: number): void {
@@ -129,10 +150,10 @@ export class GameComponent extends Destroyable implements OnInit {
     }
 
     private getDataForResource$(): Observable<SelectedResource> {
-        let randomNumber: number = this.getRandomNumber(100);
+        let randomNumber: number = this.getRandomNumber(this.getTotalRecords());
 
         return of(this.setUrlForApiCall()).pipe(
-            switchMap((url: string) => this.httpClient.get<SwapiResponse>(url + randomNumber)),
+            switchMap((url: string) => this.httpClient.get<SwapiResourceResponse>(url + '/' + randomNumber)),
             catchError((error: HttpErrorResponse) => {
                 if (error.status === 404 && error.error.message.includes('not found')) {
                     return throwError(() => error);
@@ -148,7 +169,7 @@ export class GameComponent extends Destroyable implements OnInit {
                 notifier.pipe(
                     switchMap((error: HttpErrorResponse) => {
                         if (error.status === 404 && error.error.message.includes('not found')) {
-                            randomNumber = this.getRandomNumber(100);
+                            randomNumber = this.getRandomNumber(this.getTotalRecords());
 
                             return of(null);
                         }
@@ -157,15 +178,38 @@ export class GameComponent extends Destroyable implements OnInit {
                     })
                 )
             ),
-            map((response: SwapiResponse) => response.result.properties),
+            map((response: SwapiResourceResponse) => response.result.properties),
             takeUntil(this.destroyed$)
         );
     }
 
     private setUrlForApiCall(): string {
-        const resource: string = this.gameService.playerConfiguration?.[GameFormControl.RESOURCE].toLowerCase();
+        const resource: string = this.getSelectedResource()?.toLowerCase();
 
-        return `https://swapi.tech/api/${resource}/`;
+        return `https://swapi.tech/api/${resource}`;
+    }
+
+    private getSelectedResource(): Resource {
+        return this.gameService.playerConfiguration?.[GameFormControl.RESOURCE];
+    }
+
+    private getTotalRecords(): number {
+        return this.getSelectedResource() === Resource.PEOPLE ? this.gameService.totalPeopleRecords : this.gameService.totalStarshipsRecords;
+    }
+
+    private setTotalRecords(totalRecords: number): void {
+        const selectedResource: Resource = this.getSelectedResource();
+
+        switch (selectedResource) {
+            case Resource.PEOPLE:
+                this.gameService.totalPeopleRecords = totalRecords;
+
+                return;
+            case Resource.STARSHIPS:
+                this.gameService.totalStarshipsRecords = totalRecords;
+
+                return;
+        }
     }
 
     private getRandomNumber(max: number): number {

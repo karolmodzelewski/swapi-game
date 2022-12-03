@@ -1,12 +1,14 @@
-import { SelectedResource } from './../features/game/types/selected-resource.type';
-
 export interface SwapiResponse {
     message: string;
-    result: Result;
+    total_records: number;
+    total_pages: number;
+    previous: string;
+    next: string;
+    results: Result[];
 }
 
 interface Result {
-    description: string;
-    properties: SelectedResource;
     uid: string;
+    name: string;
+    url: string;
 }
