@@ -1,11 +1,11 @@
 <ng-container *ngIf="viewState === ViewState.SUCCESS">
     <section class="section">
-        <swapi-card [playerConfiguration]="playerConfiguration" [imageSource]="playerImageSource" [resourceData$]="player$" heading="Your card"></swapi-card>
+        <swapi-card [playerConfiguration]="playerConfiguration" [imageSource]="playerImageSource" [resourceData$]="player$" [heading]="yourCardHeading"></swapi-card>
         <span class="versus">vs</span>
-        <swapi-card [playerConfiguration]="playerConfiguration" [imageSource]="enemyImageSource" [resourceData$]="enemy$" heading="Enemy card"></swapi-card>
+        <swapi-card [playerConfiguration]="playerConfiguration" [imageSource]="enemyImageSource" [resourceData$]="enemy$" [heading]="enemyCardHeading"></swapi-card>
     </section>
 
-    <swapi-wide-button (click)="showResults()" text="Show results" class="button"></swapi-wide-button>
+    <swapi-wide-button (click)="showResults()" [text]="showResultsButtonText" class="button"></swapi-wide-button>
 </ng-container>
 
 <swapi-loading-state *ngIf="viewState === ViewState.LOADING"></swapi-loading-state>

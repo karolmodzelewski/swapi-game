@@ -2,8 +2,14 @@
     <section class="section">
         <h1 class="heading">1. Select a resource</h1>
         <div class="resource-container">
-            <swapi-resource (click)="selectResource(Resource.PEOPLE)" [selected]="resourceFormControl.value === Resource.PEOPLE" class="resource" imageSource="assets/images/png/person.png" heading="People"></swapi-resource>
-            <swapi-resource (click)="selectResource(Resource.STARSHIPS)" [selected]="resourceFormControl.value === Resource.STARSHIPS" class="resource" imageSource="assets/images/png/starship.png" heading="Starships"></swapi-resource>
+            <swapi-resource (click)="selectResource(Resource.PEOPLE)" [selected]="resourceFormControl.value === Resource.PEOPLE" [imageSource]="peopleResourceImageSource" [heading]="peopleResourceHeading" class="resource"></swapi-resource>
+            <swapi-resource
+                (click)="selectResource(Resource.STARSHIPS)"
+                [selected]="resourceFormControl.value === Resource.STARSHIPS"
+                [imageSource]="starshipsResourceImageSource"
+                [heading]="starshipsResourceHeading"
+                class="resource"
+            ></swapi-resource>
         </div>
     </section>
 
@@ -23,15 +29,15 @@
         <h1 class="heading">3. Select player</h1>
         <div class="resource-container">
             <div class="resource">
-                <swapi-resource (click)="selectPlayer(Player.PLAYER_ONE)" [selected]="playerFormControl.value === Player.PLAYER_ONE" imageSource="assets/images/png/player-one.png" heading="You"></swapi-resource>
+                <swapi-resource (click)="selectPlayer(Player.PLAYER_ONE)" [selected]="playerFormControl.value === Player.PLAYER_ONE" [imageSource]="playerOneResourceImageSource" [heading]="playerOneResourceHeading"></swapi-resource>
                 <swapi-score [player]="playerOne$ | async" class="score"></swapi-score>
             </div>
             <div class="resource">
-                <swapi-resource (click)="selectPlayer(Player.PLAYER_TWO)" [selected]="playerFormControl.value === Player.PLAYER_TWO" imageSource="assets/images/png/player-two.png" heading="You (2)"></swapi-resource>
+                <swapi-resource (click)="selectPlayer(Player.PLAYER_TWO)" [selected]="playerFormControl.value === Player.PLAYER_TWO" [imageSource]="playerTwoResourceImageSource" [heading]="playerTwoResourceHeading"></swapi-resource>
                 <swapi-score [player]="playerTwo$ | async" class="score"></swapi-score>
             </div>
         </div>
     </section>
 
-    <swapi-wide-button (click)="playGame()" [disabled]="form.invalid" text="Play" class="button"></swapi-wide-button>
+    <swapi-wide-button (click)="playGame()" [disabled]="form.invalid" [text]="playButtonText" class="button"></swapi-wide-button>
 </form>

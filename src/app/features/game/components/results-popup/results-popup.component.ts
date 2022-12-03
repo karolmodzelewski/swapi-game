@@ -15,6 +15,9 @@ import { GameService } from '../../../../services/game.service';
 export class ResultsPopupComponent implements OnInit {
     public player$: BehaviorSubject<PlayerScore>;
     public currentResult: Result;
+    public infobarMessage: string = `If selected attribute is unknown it will be counted as '0' which may affect your results`;
+    public playAgainButtonText: string = 'Play Again';
+    public homePageButtonText: string = 'Home Page';
 
     constructor(private gameService: GameService, private dialogRef: MatDialogRef<ResultsPopupComponent>) {}
 

@@ -28,6 +28,9 @@ export class GameComponent extends Destroyable implements OnInit {
     public playerConfiguration: PlayerConfiguration;
     public viewState: ViewState;
     public ViewState: typeof ViewState = ViewState;
+    public yourCardHeading: string = 'Your card';
+    public enemyCardHeading: string = 'Enemy card';
+    public showResultsButtonText: string = 'Show results';
 
     public get playerImageSource(): string {
         return this.playerConfiguration?.[GameFormControl.PLAYER] === Player.PLAYER_ONE ? 'assets/images/png/player-one.png' : 'assets/images/png/player-two.png';
