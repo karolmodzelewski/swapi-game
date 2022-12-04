@@ -1,0 +1,20 @@
+{
+    "message": "ok",
+    "result": {
+        "properties": {
+            "height": "170",
+            "mass": "77",
+            "hair_color": "brown",
+            "skin_color": "fair",
+            "eye_color": "hazel",
+            "birth_year": "21BBY",
+            "gender": "male",
+            "created": "2022-12-04T03:54:34.359Z",
+            "edited": "2022-12-04T03:54:34.359Z",
+            "name": "Wedge Antilles",
+            "homeworld": "https://www.swapi.tech/api/planets/22",
+            "url": "https://www.swapi.tech/api/people/18"
+        },
+        "description": "A person within the Star Wars universe"
+    }
+}

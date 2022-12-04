@@ -21,7 +21,8 @@
         "lib": ["es2020", "dom"],
         "useDefineForClassFields": false,
         "strictPropertyInitialization": false,
-        "strictNullChecks": false
+        "strictNullChecks": false,
+        "types": ["cypress"]
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
