@@ -1,0 +1,52 @@
+@use 'src/assets/styles/colors' as *;
+
+::ng-deep {
+    .button {
+        margin-top: 50px;
+    }
+}
+
+.form .section:nth-of-type(n + 2) {
+    .heading {
+        margin: 40px 0 35px;
+    }
+}
+
+.heading {
+    color: $color-white;
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 35px;
+}
+
+.resource-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.attribute {
+    width: 100%;
+}
+
+.score {
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    :host {
+        ::ng-deep {
+            .mat-mdc-floating-label {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .resource:nth-of-type(n + 2) {
+        margin-top: 40px;
+    }
+
+    .score {
+        margin-top: 20px;
+    }
+}

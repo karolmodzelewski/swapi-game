@@ -1,0 +1,39 @@
+@use 'src/assets/styles/colors' as *;
+
+:host {
+    width: 100%;
+    max-width: 350px;
+}
+
+.heading {
+    color: $color-white;
+}
+
+.card {
+    background: none;
+    border: 3px solid $color-yellow;
+    padding: 5px;
+}
+
+.image {
+    height: 400px;
+    object-fit: contain;
+}
+
+.mat-mdc-card-content {
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    :host {
+        max-width: initial;
+    }
+
+    .heading {
+        font-size: 32px;
+    }
+
+    .image {
+        height: initial;
+    }
+}

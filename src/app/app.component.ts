@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
 
+import { GameService } from './services/game.service';
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'swapi-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'swapi-game';
+    constructor(private gameService: GameService) {}
+
+    public navigateToHomePage(): void {
+        this.gameService.navigateToHomePage();
+    }
 }

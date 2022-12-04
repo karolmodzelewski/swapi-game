@@ -1,0 +1,13 @@
+@use 'src/assets/styles/colors' as *;
+
+.color-green {
+    color: $color-green;
+}
+
+.color-gray {
+    color: $color-gray;
+}
+
+.color-red {
+    color: $color-red;
+}

@@ -1,0 +1,17 @@
+@use 'src/assets/styles/colors' as *;
+
+.description {
+    color: $color-white;
+    line-height: 0.9;
+}
+
+.property {
+    border-bottom: 1px solid $color-white;
+    padding-bottom: 2px;
+}
+
+@media screen and (max-width: 768px) {
+    .property {
+        font-size: 24px;
+    }
+}
