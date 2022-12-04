@@ -10,7 +10,9 @@
         "test:coverage": "ng test --no-watch --code-coverage",
         "format": "prettier --write .",
         "lint": "ng lint",
-        "lint:fix": "ng lint --fix"
+        "lint:fix": "ng lint --fix",
+        "e2e:open": "cypress open",
+        "e2e:run": "cypress run"
     },
     "private": true,
     "dependencies": {
@@ -41,6 +43,7 @@
         "@typescript-eslint/eslint-plugin": "5.44.0",
         "@typescript-eslint/parser": "5.44.0",
         "cypress": "^11.2.0",
+        "cypress-wait-until": "^1.7.2",
         "eslint": "^8.28.0",
         "eslint-import-resolver-alias": "^1.1.2",
         "eslint-import-resolver-typescript": "^3.5.2",

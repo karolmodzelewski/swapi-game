@@ -155,7 +155,7 @@ export class GameComponent extends Destroyable implements OnInit {
         return of(this.setUrlForApiCall()).pipe(
             switchMap((url: string) => this.httpClient.get<SwapiResourceResponse>(url + '/' + randomNumber)),
             catchError((error: HttpErrorResponse) => {
-                if (error.status === 404 && error.error.message.includes('not found')) {
+                if (error.status === 404 && error?.error?.message.includes('not found')) {
                     return throwError(() => error);
                 }
 
@@ -168,7 +168,7 @@ export class GameComponent extends Destroyable implements OnInit {
             retryWhen((notifier: Observable<HttpErrorResponse>) =>
                 notifier.pipe(
                     switchMap((error: HttpErrorResponse) => {
-                        if (error.status === 404 && error.error.message.includes('not found')) {
+                        if (error.status === 404 && error?.error?.message.includes('not found')) {
                             randomNumber = this.getRandomNumber(this.getTotalRecords());
 
                             return of(null);
@@ -178,7 +178,7 @@ export class GameComponent extends Destroyable implements OnInit {
                     })
                 )
             ),
-            map((response: SwapiResourceResponse) => response.result.properties),
+            map((response: SwapiResourceResponse) => response?.result?.properties),
             takeUntil(this.destroyed$)
         );
     }
